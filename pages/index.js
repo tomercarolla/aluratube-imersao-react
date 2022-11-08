@@ -1,11 +1,14 @@
 import config from './../config.json';
 import styled from "styled-components";
 import {CSSReset} from "../src/components/cssReset";
-import Menu from "../src/components/cssMenu";
 import {StyledTimeline} from "../src/components/cssTimeline";
 import {StyledFavorites} from "../src/components/cssFavorites";
+import Menu from "../src/components/menu";
+import {useState} from "react";
 
 function Homepage() {
+    const [searchValue, setSearchValue] = useState("");
+
     return (
         <>
             <CSSReset/>
@@ -14,9 +17,9 @@ function Homepage() {
                 flexDirection: "column",
                 flex: 1
             }}>
-                <Menu/>
+                <Menu searchValue={searchValue} setSearchValue={setSearchValue}/>
                 <Header/>
-                <Timeline playlists={config.playlists}/>
+                <Timeline searchValue={searchValue} playlists={config.playlists}/>
                 <FavoritesChannels favorites={config.favorites}/>
             </div>
         </>
@@ -24,16 +27,11 @@ function Homepage() {
 }
 
 const StyledBanner = styled.div`
+  background-image: url(${({backgroundImage}) => backgroundImage});
   background-position: center center;
   background-size: cover;
   height: 270px;
 `
-
-function Banner() {
-    return (
-        <StyledBanner style={{backgroundImage: `url(${config.bannerImage})`}}/>
-    )
-}
 
 const StyledHeader = styled.div`
   img {
@@ -54,7 +52,7 @@ const StyledHeader = styled.div`
 function Header() {
     return (
         <StyledHeader>
-            <Banner/>
+            <StyledBanner backgroundImage={config.bannerImage}/>
             <section className="user-info">
                 <img src={`https://github.com/${config.github}.png`} alt=""/>
                 <div>
@@ -66,8 +64,7 @@ function Header() {
     )
 }
 
-function Timeline(props) {
-
+function Timeline({searchValue, ...props}) {
     const playlistsNames = Object.keys(props.playlists);
 
     return (
@@ -78,13 +75,18 @@ function Timeline(props) {
                     playlistsNames.map(playlist => {
                         const videos = props.playlists[playlist];
                         return (
-                            <section>
+                            <section key={playlist}>
                                 <h2>{playlist}</h2>
                                 <div>
                                     {
-                                        videos.map(item => {
+                                        videos.filter(item => {
+                                            const videoTitleNormalize = item.title.toLowerCase();
+                                            const searchValueNormalize = searchValue.toLowerCase();
+
+                                            return videoTitleNormalize.toLowerCase().includes(searchValueNormalize)
+                                        }).map(item => {
                                             return (
-                                                <a href={item.url}>
+                                                <a key={item.id} href={item.url}>
                                                     <img src={item.thumb} alt=""/>
                                                     <span>{item.title}</span>
                                                 </a>
@@ -101,24 +103,7 @@ function Timeline(props) {
     )
 }
 
-const StyleFavorites = styled.div`
-  img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 16px 32px;
-    gap: 16px;
-  }
-`;
-
 function FavoritesChannels(props) {
-
     const favorites = props.favorites;
 
     return (
@@ -129,7 +114,7 @@ function FavoritesChannels(props) {
                     {
                         favorites.map(user => {
                             return (
-                                <div>
+                                <div key={user.id}>
                                     <img src={`https://github.com/${user.userImage}.png`} alt=""/>
                                     <div>
                                         <p>@{user.username}</p>
