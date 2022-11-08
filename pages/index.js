@@ -1,27 +1,37 @@
 import config from './../config.json';
-import styled from "styled-components";
+import styled, {ThemeProvider} from "styled-components";
 import {CSSReset} from "../src/components/cssReset";
 import {StyledTimeline} from "../src/components/cssTimeline";
 import {StyledFavorites} from "../src/components/cssFavorites";
 import Menu from "../src/components/menu";
 import {useState} from "react";
+import {darkTheme, GlobalStyles, lightTheme} from "../src/theme/schema";
 
 function Homepage() {
     const [searchValue, setSearchValue] = useState("");
 
+    const [theme, setTheme] = useState("light")
+
+    const toggleTheme = () => {
+        theme === 'light' ? setTheme('dark') : setTheme('light')
+    }
+
     return (
         <>
-            <CSSReset/>
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                flex: 1
-            }}>
-                <Menu searchValue={searchValue} setSearchValue={setSearchValue}/>
-                <Header/>
-                <Timeline searchValue={searchValue} playlists={config.playlists}/>
-                <FavoritesChannels favorites={config.favorites}/>
-            </div>
+            <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+                <GlobalStyles/>
+                <CSSReset/>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flex: 1
+                }}>
+                    <Menu searchValue={searchValue} setSearchValue={setSearchValue} toggleTheme={toggleTheme}/>
+                    <Header/>
+                    <Timeline searchValue={searchValue} playlists={config.playlists}/>
+                    <FavoritesChannels favorites={config.favorites}/>
+                </div>
+            </ThemeProvider>
         </>
     )
 }
