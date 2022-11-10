@@ -9,6 +9,8 @@ export const CSSReset = createGlobalStyle`
   }
   body {
     font-family: sans-serif;
+    background: ${({theme}) => theme.backgroundBase};
+    color: ${({theme}) => theme.textColorBase};
   }
   /* NextJS */
   html {

@@ -16,11 +16,9 @@ export const darkTheme = {
     textColorBase: "#FFFFFF"
 }
 
-export const GlobalStyles = createGlobalStyle`
-  body {
-    background: ${({theme}) => theme.backgroundBase};
-    color: ${({theme}) => theme.textColorBase};
-    font-family: Tahoma, Helvetica, Arial, Roboto, sans-serif;
-    transition: all 0.50s linear;
-  }
-`
+// export const GlobalStyles = createGlobalStyle`
+//   body {
+//     background: ${({theme}) => theme.backgroundBase};
+//     color: ${({theme}) => theme.textColorBase};
+//   }
+// `

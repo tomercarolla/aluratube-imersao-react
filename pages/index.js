@@ -1,37 +1,25 @@
 import config from './../config.json';
-import styled, {ThemeProvider} from "styled-components";
-import {CSSReset} from "../src/components/cssReset";
+import styled from "styled-components";
 import {StyledTimeline} from "../src/components/cssTimeline";
 import {StyledFavorites} from "../src/components/cssFavorites";
 import Menu from "../src/components/menu";
 import {useState} from "react";
-import {darkTheme, GlobalStyles, lightTheme} from "../src/theme/schema";
 
-function Homepage() {
+function Homepage({toggleTheme}) {
     const [searchValue, setSearchValue] = useState("");
-
-    const [theme, setTheme] = useState("light")
-
-    const toggleTheme = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light')
-    }
 
     return (
         <>
-            <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-                <GlobalStyles/>
-                <CSSReset/>
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    flex: 1
-                }}>
-                    <Menu searchValue={searchValue} setSearchValue={setSearchValue} toggleTheme={toggleTheme}/>
-                    <Header/>
-                    <Timeline searchValue={searchValue} playlists={config.playlists}/>
-                    <FavoritesChannels favorites={config.favorites}/>
-                </div>
-            </ThemeProvider>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1
+            }}>
+                <Menu searchValue={searchValue} setSearchValue={setSearchValue} toggleTheme={toggleTheme}/>
+                <Header/>
+                <Timeline searchValue={searchValue} playlists={config.playlists}/>
+                <FavoritesChannels favorites={config.favorites}/>
+            </div>
         </>
     )
 }
@@ -56,6 +44,10 @@ const StyledHeader = styled.div`
     width: 100%;
     padding: 16px 32px;
     gap: 16px;
+    
+    p {
+      color: #666666;
+    }
   }
 `;
 
