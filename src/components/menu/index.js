@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Search from "./search";
+import ToggleThemeButton from "./toggle-theme-button";
 
 const StyledMenu = styled.header`
   display: flex;
@@ -49,6 +50,7 @@ export default function Menu({searchValue, setSearchValue, toggleTheme}) {
             </div>
             <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
             <button className="switch-theme-btn" onClick={toggleTheme}>Switch Theme</button>
+            <ToggleThemeButton />
         </StyledMenu>
     );
 }
