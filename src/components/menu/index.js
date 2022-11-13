@@ -25,31 +25,15 @@ const StyledMenu = styled.header`
       fill: ${({theme}) => theme.textColorBase || "#222222"};
     }
   }
-  
-  .switch-theme-btn {
-    cursor: pointer;
-    border: none;
-    background-color: ${({ theme }) => theme.backgroundLevel2};
-    box-shadow: 0 1px 0 rgb(0 0 0 / 10%);
-    border-left: 1px solid ${({ theme }) => theme.borderBase};
-    color: ${({theme}) => theme.textColorBase};
-    width: 120px;
-    height: 40px;
-
-    @media (min-width: 600px) {
-      height: 40px;
-    }
-  }
 `;
 
-export default function Menu({searchValue, setSearchValue, toggleTheme}) {
+export default function Menu({searchValue, setSearchValue}) {
     return (
         <StyledMenu>
             <div>
                 <Logo/>
             </div>
             <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
-            <button className="switch-theme-btn" onClick={toggleTheme}>Switch Theme</button>
             <ToggleThemeButton />
         </StyledMenu>
     );

@@ -5,7 +5,7 @@ import {StyledFavorites} from "../src/components/cssFavorites";
 import Menu from "../src/components/menu";
 import {useState} from "react";
 
-function Homepage({toggleTheme}) {
+function Homepage() {
     const [searchValue, setSearchValue] = useState("");
 
     return (
@@ -15,7 +15,7 @@ function Homepage({toggleTheme}) {
                 flexDirection: "column",
                 flex: 1
             }}>
-                <Menu searchValue={searchValue} setSearchValue={setSearchValue} toggleTheme={toggleTheme}/>
+                <Menu searchValue={searchValue} setSearchValue={setSearchValue} />
                 <Header/>
                 <Timeline searchValue={searchValue} playlists={config.playlists}/>
                 <FavoritesChannels favorites={config.favorites}/>
